@@ -1,0 +1,3 @@
+Hello, this is Diken's file!
+This is line 2.
+This is an appended line.
