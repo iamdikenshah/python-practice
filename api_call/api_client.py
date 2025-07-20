@@ -1,4 +1,3 @@
-
 import requests
 import json
 import os
@@ -35,6 +34,24 @@ class APIClient:
             }
         except requests.exceptions.RequestException as e:
             return {'error': str(e), 'status_code': None}
+    
+    def download_image(self, image_url, filename, folder="images"):
+        """Download an image from URL"""
+        try:
+            # Create folder if it doesn't exist
+            if not os.path.exists(folder):
+                os.makedirs(folder)
+            
+            response = requests.get(image_url, headers=self.headers)
+            response.raise_for_status()
+            
+            filepath = os.path.join(folder, filename)
+            with open(filepath, 'wb') as file:
+                file.write(response.content)
+            
+            return f"Image downloaded to {filepath}"
+        except requests.exceptions.RequestException as e:
+            return f"Error downloading image: {str(e)}"
     
     def save_to_file(self, data, filename, folder="api_call"):
         """Save API response to a file"""
